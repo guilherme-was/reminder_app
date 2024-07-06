@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:reminder_app/notification_page.dart';
 import 'package:reminder_app/reminder_manager.dart';
+
+final chaveDeNavegacao = GlobalKey<NavigatorState>();
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -78,48 +81,54 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lembretes'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Adicionar Lembrete',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Título'),
-            ),
-            TextField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Descrição'),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () => _selectDate(context),
-              child: Text(_selectedDate == null
-                  ? 'Selecionar Data'
-                  : DateFormat('dd/MM/yyyy').format(_selectedDate!)),
-            ),
-            TextButton(
-              onPressed: () => _selectTime(context),
-              child: Text(_selectedTime == null
-                  ? 'Selecionar Hora'
-                  : _selectedTime!.format(context)),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _scheduleReminder,
-              child: const Text('Criar Lembrete'),
-            ),
-          ],
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Lembretes'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Adicionar Lembrete',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: 'Título'),
+              ),
+              TextField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Descrição'),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => _selectDate(context),
+                child: Text(_selectedDate == null
+                    ? 'Selecionar Data'
+                    : DateFormat('dd/MM/yyyy').format(_selectedDate!)),
+              ),
+              TextButton(
+                onPressed: () => _selectTime(context),
+                child: Text(_selectedTime == null
+                    ? 'Selecionar Hora'
+                    : _selectedTime!.format(context)),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _scheduleReminder,
+                child: const Text('Criar Lembrete'),
+              ),
+            ],
+          ),
         ),
       ),
+      navigatorKey: chaveDeNavegacao,
+      routes: {
+        '/aviso': (context) => const NotificationPage(),
+      },
     );
   }
 }
